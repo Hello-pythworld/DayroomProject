@@ -17,7 +17,7 @@ public class AuthService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	public void register(RegisterRequestDTO request) {
+	public String register(RegisterRequestDTO request) {
 		
 		//중복 확인
 		if(userRepository.existsByUsername(request.getUsername())) {
@@ -34,19 +34,20 @@ public class AuthService {
 		user.setEmail(request.getEmail());
 		
 		userRepository.save(user);
+		return "회원가입 성공";
 	}
 	
 	public String login(LoginRequestDTO request) {
-		
+
 		// 유저 조회
 		User user = userRepository.findByUsername(request.getUsername())
 				.orElseThrow(() -> new RuntimeException("존재하지 않는 아이디입니다."));
-		
+
 		// 비밀번호 확인
 		if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			throw new RuntimeException("비밀번호가 일치하지 않습니다.");
 		}
-		
+
 		// 임시 토큰 반환 (추후 JWT로 교체)
 		return "login-success-token";
 	}
