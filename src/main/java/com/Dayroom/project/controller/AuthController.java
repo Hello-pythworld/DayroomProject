@@ -13,7 +13,7 @@ import com.Dayroom.project.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 	

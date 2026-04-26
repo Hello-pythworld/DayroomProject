@@ -7,6 +7,7 @@ import com.Dayroom.project.dto.LoginRequestDTO;
 import com.Dayroom.project.dto.RegisterRequestDTO;
 import com.Dayroom.project.entity.User;
 import com.Dayroom.project.repository.UserRepository;
+import com.Dayroom.project.security.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +17,9 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
-	
+	private final JwtUtil jwtUtil;
+
+
 	public String register(RegisterRequestDTO request) {
 		
 		//중복 확인
@@ -49,6 +52,6 @@ public class AuthService {
 		}
 
 		// 임시 토큰 반환 (추후 JWT로 교체)
-		return "login-success-token";
+		return jwtUtil.generateToken(user.getUsername());
 	}
 }
